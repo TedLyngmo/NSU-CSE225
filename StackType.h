@@ -1,6 +1,6 @@
-#include "Seat.h"
 #ifndef STACKTYPE_H
 #define STACKTYPE_H
+#include "Seat.h"
 
 const int MAX_ITEMS = 5;
 

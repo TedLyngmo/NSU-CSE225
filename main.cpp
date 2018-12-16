@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <bits.h>
 #include <vector>
 #include <sstream>
+#include <cassert>
 
 #include "StackType.h"
 #include "UnsortedType.h"
@@ -63,75 +63,53 @@ int main()
 
     string inputString;
 
-    int i = 7;
-
-    while(inputFile >> inputString && inputString != "CLOSE")
+    while(getline(inputFile, inputString))
     {
-        /*outputFile << "--------------" << endl;
-        outputFile << inputString << endl;
-        outputFile << "--------------" << endl;
-        outputFile << "Customers In Shop" << endl;
-        outputFile << "[ ";*/
-
-        cout << i++ << endl;
-
-        vector <string> token;
-
-        string intermediate;
-
+        std::cout << ">" << inputString << "<\n";
+        if(inputString=="CLOSE") break;
         stringstream line(inputString);
+        vector<string> token;
+        string intermediate;
+        while(line >> intermediate)
+            token.emplace_back(std::move(intermediate));
+        assert(token.size()==2);
 
-        cout << i++ << endl;
-
-        while(getline(line, intermediate, ' '))
-        {
-            token.push_back(intermediate);
-        }
-
-        cout << i++ << endl;
-
-        if(token[0].compare("ARRIVE"))
+        if(token[0]=="ARRIVE")
         {
             if(!seats.IsEmpty())
             {
+                for(auto & s : token) std::cout << " " << s << " (token)\n";
                 seats.Pop();
                 Customer tempC(token[1]);
+                std::cout << "customerInShop.InsertItem\n";
                 customerInShop.InsertItem(tempC);
-
             }
             else
             {
+                for(auto & s : token) std::cout << " " << s << " (token)\n";
                 Customer tempC(token[1]);
+                std::cout << "customerInLine.Enqueue\n";
                 customerInLine.Enqueue(tempC);
             }
-
-            cout << i++ << endl;
         }
-        else if(token[0].compare("LEAVE"))
+        else if(token[0]=="LEAVE")
         {
-            if(customerInLine.IsEmpty() && !seats.IsFull())
+            for(auto & s : token) std::cout << " " << s << " (token)\n";
+
+            if(customerInLine.IsEmpty() && !seats.IsFull()) {
+                std::cout << "leave seats push" << token[1] << "\n";
                 seats.Push(X);
-            else
-            {
-                Customer tempC(token[1]);
-                customerInShop.DeleteItem(tempC);
-                if(!customerInLine.IsEmpty())
-                {
-                    Customer tempCo;
-                    customerInLine.Dequeue(tempCo);
-                    customerInShop.InsertItem(tempCo);
-                }
             }
-
-            cout << i++ << endl;
+            std::cout << "leave " << token[1] << "\n";
+            Customer tempC(token[1]);
+            customerInShop.DeleteItem(tempC);
+            if(!customerInLine.IsEmpty())
+            {
+                Customer tempCo;
+                customerInLine.Dequeue(tempCo);
+                customerInShop.InsertItem(tempCo);
+            }
         }
-
-        cout << i++ << endl;
-
-        /*outputFile << "Customers Waiting In Line" << endl;
-        outputFile << "[ ]\n" << endl;
-        outputFile << "Seat Stack" << endl;
-        outputFile << "[ X, X, X, X, X]\n" << endl;*/
     }
     inputFile.close();
     outputFile.close();

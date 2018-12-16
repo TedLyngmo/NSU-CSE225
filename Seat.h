@@ -4,8 +4,6 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
-
 class Seat
 {
     public:
@@ -13,8 +11,8 @@ class Seat
         void Print();
 
     private:
-        string color;
-        string type;
+        std::string color;
+        std::string type;
 };
 
 #endif // SEAT_H

@@ -1,24 +1,17 @@
 #include "QueType.h"
 
-QueType::QueType(int max)
-{
-    maxQue = max + 1;
-    front = maxQue - 1;
-    rear = maxQue - 1;
-    items = new Customer[maxQue];
-}
+QueType::QueType(int max) :
+    maxQue(max + 1),
+    front(maxQue - 1),
+    rear(maxQue - 1),
+    items(new Customer[maxQue])
+{}
 
-QueType::QueType()
-{
-    maxQue = 50;
-    front = maxQue - 1;
-    rear = maxQue - 1;
-    items = new Customer[maxQue];
-}
+QueType::QueType() : QueType(49) {}
 
 QueType::~QueType()
 {
-    delete [] items;
+    delete[] items;
 }
 
 void QueType::MakeEmpty()

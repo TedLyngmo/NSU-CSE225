@@ -1,10 +1,9 @@
 #include "UnsortedType.h"
 
-UnsortedType::UnsortedType()
-{
-    length = 0;
-    currentPos = -1;
-}
+UnsortedType::UnsortedType() :
+    length(0),
+    currentPos(-1)
+{}
 
 void UnsortedType::MakeEmpty()
 {
@@ -32,17 +31,16 @@ void UnsortedType::GetNextItem(Customer& item)
     item = info [currentPos] ;
 }
 
-void UnsortedType::RetrieveItem(Customer& item, bool& found)
+bool UnsortedType::RetrieveItem(Customer& item)
 {
     int location = 0;
     bool moreToSearch = (location < length);
-    found = false;
-    while (moreToSearch && !found)
+    while (moreToSearch)
     {
         if(item == info[location])
         {
-            found = true;
             item = info[location];
+            return true;
         }
         else
         {
@@ -50,20 +48,22 @@ void UnsortedType::RetrieveItem(Customer& item, bool& found)
             moreToSearch = (location < length);
         }
     }
+    return false;
 }
 
 void UnsortedType::InsertItem(Customer item)
 {
+    if(length==MAX_ITEM) std::cout << "already maxed\n";
     info[length] = item;
-    length++;
+    ++length;
 }
 
 void UnsortedType::DeleteItem(Customer item)
 {
+    std::cout << "delete\n";
     int location = 0;
     while (item != info[location])
         location++;
     info[location] = info[length - 1];
-    length--;
-
+    --length;
 }

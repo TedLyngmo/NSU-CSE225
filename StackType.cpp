@@ -1,9 +1,6 @@
 #include "StackType.h"
 
-StackType::StackType()
-{
-    top = -1;
-}
+StackType::StackType() : top(-1) {}
 
 bool StackType::IsEmpty()
 {
@@ -18,14 +15,14 @@ bool StackType::IsFull()
 void StackType::Push(Seat newItem)
 {
     if(IsFull()) throw FullStack();
-    top++;
+    ++top;
     item[top] = newItem;
 }
 
 void StackType::Pop()
 {
     if( IsEmpty() ) throw EmptyStack();
-    top--;
+    --top;
 }
 
 Seat StackType::Top()

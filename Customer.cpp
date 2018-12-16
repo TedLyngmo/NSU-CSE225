@@ -1,32 +1,20 @@
 #include "Customer.h"
 
-Customer::Customer(string nm)
+Customer::Customer(const std::string& nm) :
+    name(nm)
+{}
+
+bool Customer::operator!=(const Customer& cus) const
 {
-    name = nm;
+    return name != cus.name;
 }
 
-Customer::Customer()
+bool Customer::operator==(const Customer& cus) const
 {
-    name = "";
-}
-
-bool Customer::operator!=(Customer cus)
-{
-    if(cus.name == name)
-        return false;
-    else
-        return true;
-}
-
-bool Customer::operator==(Customer cus)
-{
-    if(cus.name == name)
-        return true;
-    else
-        return false;
+    return name == cus.name;
 }
 
 void Customer::Print()
 {
-    cout << name;
+    std::cout << name;
 }
